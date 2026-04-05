@@ -1,0 +1,65 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create sample data 
+# For beginners: This creates random data to demonstrate the concepts
+ages = np.random.randint(18, 80, 100)  # 100 random ages between 18-80
+genders = np.random.choice(['Male', 'Female'], 100)  # 100 random genders
+
+
+# 1. HISTOGRAM - Shows distribution of continuous data (like ages)
+
+plt.figure(figsize=(10, 5))
+
+# Create histogram
+plt.hist(ages, bins=10, color='skyblue', edgecolor='black', alpha=0.7)
+plt.xlabel('Age')
+plt.ylabel('Number of People')
+plt.title('Age Distribution')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('age_histogram.png', dpi=300)
+plt.show()
+
+# 2. BAR CHART - Shows distribution of categorical data (like genders)
+
+plt.figure(figsize=(8, 5))
+
+# Count how many males and females
+gender_counts = pd.Series(genders).value_counts()
+
+# Create bar chart
+bars = plt.bar(gender_counts.index, gender_counts.values,
+               color=['lightblue', 'pink'], edgecolor='black', alpha=0.7)
+
+# Add numbers on top of bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2., height,
+            f'{int(height)}', ha='center', va='bottom')
+
+plt.xlabel('Gender')
+plt.ylabel('Number of People')
+plt.title('Gender Distribution')
+plt.grid(axis='y', alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('gender_bar_chart.png', dpi=300)
+plt.show()
+
+# 3. BASIC STATISTICS - Understanding your data
+
+print("=== BASIC STATISTICS ===")
+print(f"Total people: {len(ages)}")
+print(f"Average age: {ages.mean():.1f} years")
+print(f"Youngest person: {ages.min()} years")
+print(f"Oldest person: {ages.max()} years")
+print()
+print("Gender breakdown:")
+for gender, count in gender_counts.items():
+    percentage = (count / len(genders)) * 100
+    print(f"{gender}: {count} people ({percentage:.1f}%)")
+
+
